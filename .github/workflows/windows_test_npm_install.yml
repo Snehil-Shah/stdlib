@@ -137,7 +137,7 @@ jobs:
       # Checkout the repository:
       - name: 'Checkout repository'
         # Pin action to full length commit SHA
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           # Specify whether to remove untracked files before checking out the repository:
           clean: false
@@ -147,12 +147,15 @@ jobs:
 
           # Specify whether to download Git-LFS files:
           lfs: false
+
+          # Do not persist GitHub token in local Git configuration since no continued authentication is needed:
+          persist-credentials: false
         timeout-minutes: 10
 
       # Install MSYS2:
       - name: 'Install MSYS2'
         # Pin action to full length commit SHA
-        uses: msys2/setup-msys2@d0e80f58dffbc64f6a3a1f43527d469b4fc7b6c8 # v2.23.0
+        uses: msys2/setup-msys2@d44ca8e88d8b43d56cf5670f91747359d5537f97 # v2.26.0
         with:
           # Set the MSYS system:
           msystem: MINGW64
@@ -219,9 +222,6 @@ jobs:
           echo 'g++:'
           g++ --version
           echo ''
-          echo 'gfortran:'
-          gfortran --version
-          echo ''
           echo 'Git:'
           git --version
           echo ''
@@ -245,7 +245,7 @@ jobs:
       # Install Windows build tools for compiling Node.js native add-ons.
       - name: 'Install Windows build tools'
         # Pin action to full length commit SHA
-        uses: crazy-max/ghaction-chocolatey@0e015857dd851f84fcb7fb53380eb5c4c8202333 # v3.0.0
+        uses: crazy-max/ghaction-chocolatey@2ae99523e93879734d432250f87e2c45c379cd60 # v3.2.0
         with:
           args: install -y visualstudio2019buildtools visualstudio2019-workload-vctools
         timeout-minutes: 10
@@ -273,7 +273,7 @@ jobs:
           TEST_NPM_INSTALL_GITHUB_URL: 'https://github.com/stdlib-js/stdlib'
         run: |
           . "${{ env.NVS_HOME }}/nvs.sh" && nvs use ${{ matrix.NODE_VERSION }}
-          . "./.github/workflows/scripts/task_runner" ${{ matrix.BUILD_TASK }} "${{ env.LOG_FILE_BUILD_TASK }}"
+          . "$GITHUB_WORKSPACE/.github/workflows/scripts/task_runner" ${{ matrix.BUILD_TASK }} "${{ env.LOG_FILE_BUILD_TASK }}"
         timeout-minutes: 360
 
       # View the log file if the previous step fails:
@@ -287,7 +287,7 @@ jobs:
       # Upload the log file:
       - name: 'Upload log file'
         # Pin action to full length commit SHA
-        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4.6.0
         if: always()
         with:
           # Define a name for the uploaded artifact (ensuring a unique name for each job):
