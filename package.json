@@ -108,7 +108,8 @@
     "readable-stream": "^2.1.4",
     "resolve": "^1.1.7",
     "vdom-to-html": "^2.3.0",
-    "virtual-dom": "^2.1.1"
+    "virtual-dom": "^2.1.1",
+    "zeromq": "5"
   },
   "optionalDependencies": {
     "node-gyp": "^9.3.1"
